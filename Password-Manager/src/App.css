@@ -41,4 +41,19 @@ button {
 .list {
   margin-top: 20px;
 }
+.password-list {
+  margin-top: 30px;
+}
 
+.card {
+  background: white;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  color: #2563eb;
+  margin-bottom: 10px;
+}

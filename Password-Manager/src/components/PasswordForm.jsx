@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { generatePassword } from "../utils/passwordGenerator";
 
-function PasswordForm() {
+function PasswordForm({ setPasswords }) {
   const [website, setWebsite] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,17 +15,20 @@ function PasswordForm() {
       password,
     };
 
-    const existing =
+    const stored =
       JSON.parse(localStorage.getItem("passwords")) || [];
 
-    existing.push(newPassword);
+    const updatedPasswords = [
+      ...stored,
+      newPassword,
+    ];
 
     localStorage.setItem(
       "passwords",
-      JSON.stringify(existing)
+      JSON.stringify(updatedPasswords)
     );
 
-    alert("Password Saved");
+    setPasswords(updatedPasswords);
 
     setWebsite("");
     setUsername("");
@@ -36,23 +39,29 @@ function PasswordForm() {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Website"
+        placeholder="Website Name"
         value={website}
-        onChange={(e) => setWebsite(e.target.value)}
+        onChange={(e) =>
+          setWebsite(e.target.value)
+        }
       />
 
       <input
         type="text"
         placeholder="Username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) =>
+          setUsername(e.target.value)
+        }
       />
 
       <input
         type="text"
         placeholder="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
       />
 
       <button
