@@ -1,0 +1,23 @@
+password-manager/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── PasswordForm.jsx
+│   │   └── PasswordList.jsx
+│   │
+│   ├── pages/
+│   │   └── Home.jsx
+│   │
+│   ├── utils/
+│   │   └── passwordGenerator.js
+│   │
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
+│
+├── package.json
+└── vite.config.js
