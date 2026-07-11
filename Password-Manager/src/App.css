@@ -57,3 +57,38 @@ button {
   color: #2563eb;
   margin-bottom: 10px;
 }
+.password-list {
+  margin-top: 30px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.copy-btn {
+  background: #10b981;
+  color: white;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.copy-btn,
+.delete-btn {
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}

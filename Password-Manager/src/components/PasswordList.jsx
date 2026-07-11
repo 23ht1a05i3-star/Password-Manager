@@ -1,5 +1,24 @@
-import { useEffect, useState } from "react";
-function PasswordList({ passwords = [] }) {
+import { FaTrash, FaCopy } from "react-icons/fa";
+
+function PasswordList({ passwords = [], setPasswords }) {
+  const deletePassword = (index) => {
+    const updatedPasswords = passwords.filter(
+      (_, i) => i !== index
+    );
+
+    localStorage.setItem(
+      "passwords",
+      JSON.stringify(updatedPasswords)
+    );
+
+    setPasswords(updatedPasswords);
+  };
+
+  const copyPassword = (password) => {
+    navigator.clipboard.writeText(password);
+    alert("Password Copied!");
+  };
+
   return (
     <div className="password-list">
       <h2>Saved Passwords</h2>
@@ -12,14 +31,34 @@ function PasswordList({ passwords = [] }) {
             <h3>{item.website}</h3>
 
             <p>
-              <strong>Username:</strong>{" "}
+              <strong>Username:</strong>
               {item.username}
             </p>
 
             <p>
-              <strong>Password:</strong>{" "}
+              <strong>Password:</strong>
               {item.password}
             </p>
+
+            <div className="actions">
+              <button
+                className="copy-btn"
+                onClick={() =>
+                  copyPassword(item.password)
+                }
+              >
+                <FaCopy />
+              </button>
+
+              <button
+                className="delete-btn"
+                onClick={() =>
+                  deletePassword(index)
+                }
+              >
+                <FaTrash />
+              </button>
+            </div>
           </div>
         ))
       )}
@@ -28,6 +67,9 @@ function PasswordList({ passwords = [] }) {
 }
 
 export default PasswordList;
+
+
+
 
 
 

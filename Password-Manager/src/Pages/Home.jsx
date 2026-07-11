@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import Navbar from "../components/Navbar";
 import PasswordForm from "../components/PasswordForm";
 import PasswordList from "../components/PasswordList";
@@ -25,6 +24,7 @@ function Home() {
 
         <PasswordList
           passwords={passwords}
+          setPasswords={setPasswords}
         />
       </div>
     </>
@@ -32,3 +32,4 @@ function Home() {
 }
 
 export default Home;
+
