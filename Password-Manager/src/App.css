@@ -92,3 +92,24 @@ button {
   border-radius: 6px;
   cursor: pointer;
 }
+.search-input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.show-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.show-btn,
+.copy-btn,
+.delete-btn {
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}

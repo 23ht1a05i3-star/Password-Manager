@@ -1,14 +1,22 @@
 import { useState, useEffect } from "react";
+
 import Navbar from "../components/Navbar";
 import PasswordForm from "../components/PasswordForm";
 import PasswordList from "../components/PasswordList";
+import SearchBar from "../components/SearchBar";
 
 function Home() {
-  const [passwords, setPasswords] = useState([]);
+  const [passwords, setPasswords] =
+    useState([]);
+
+  const [search, setSearch] =
+    useState("");
 
   useEffect(() => {
     const stored =
-      JSON.parse(localStorage.getItem("passwords")) || [];
+      JSON.parse(
+        localStorage.getItem("passwords")
+      ) || [];
 
     setPasswords(stored);
   }, []);
@@ -22,9 +30,15 @@ function Home() {
           setPasswords={setPasswords}
         />
 
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+        />
+
         <PasswordList
           passwords={passwords}
           setPasswords={setPasswords}
+          search={search}
         />
       </div>
     </>
@@ -32,4 +46,5 @@ function Home() {
 }
 
 export default Home;
+
 

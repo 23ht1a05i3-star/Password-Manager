@@ -1,10 +1,22 @@
-import { FaTrash, FaCopy } from "react-icons/fa";
+import { useState } from "react";
+import {
+  FaTrash,
+  FaCopy,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 
-function PasswordList({ passwords = [], setPasswords }) {
+function PasswordList({
+  passwords = [],
+  setPasswords,
+  search,
+}) {
+  const [showPassword, setShowPassword] =
+    useState({});
+
   const deletePassword = (index) => {
-    const updatedPasswords = passwords.filter(
-      (_, i) => i !== index
-    );
+    const updatedPasswords =
+      passwords.filter((_, i) => i !== index);
 
     localStorage.setItem(
       "passwords",
@@ -14,40 +26,61 @@ function PasswordList({ passwords = [], setPasswords }) {
     setPasswords(updatedPasswords);
   };
 
-  const copyPassword = (password) => {
-    navigator.clipboard.writeText(password);
-    alert("Password Copied!");
-  };
+  const filteredPasswords =
+    passwords.filter((item) =>
+      item.website
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
 
   return (
     <div className="password-list">
       <h2>Saved Passwords</h2>
 
-      {passwords.length === 0 ? (
-        <p>No Passwords Saved</p>
-      ) : (
-        passwords.map((item, index) => (
+      {filteredPasswords.map(
+        (item, index) => (
           <div className="card" key={index}>
             <h3>{item.website}</h3>
 
             <p>
-              <strong>Username:</strong>
+              <strong>Username:</strong>{" "}
               {item.username}
             </p>
 
             <p>
-              <strong>Password:</strong>
-              {item.password}
+              <strong>Password:</strong>{" "}
+              {showPassword[index]
+                ? item.password
+                : "********"}
             </p>
 
             <div className="actions">
               <button
                 className="copy-btn"
                 onClick={() =>
-                  copyPassword(item.password)
+                  navigator.clipboard.writeText(
+                    item.password
+                  )
                 }
               >
                 <FaCopy />
+              </button>
+
+              <button
+                className="show-btn"
+                onClick={() =>
+                  setShowPassword({
+                    ...showPassword,
+                    [index]:
+                      !showPassword[index],
+                  })
+                }
+              >
+                {showPassword[index] ? (
+                  <FaEyeSlash />
+                ) : (
+                  <FaEye />
+                )}
               </button>
 
               <button
@@ -60,13 +93,14 @@ function PasswordList({ passwords = [], setPasswords }) {
               </button>
             </div>
           </div>
-        ))
+        )
       )}
     </div>
   );
 }
 
 export default PasswordList;
+
 
 
 
