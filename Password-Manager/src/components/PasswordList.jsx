@@ -4,12 +4,14 @@ import {
   FaCopy,
   FaEye,
   FaEyeSlash,
+  FaEdit,
+  FaStar,
 } from "react-icons/fa";
 
 function PasswordList({
   passwords = [],
   setPasswords,
-  search,
+  search = "",
 }) {
   const [showPassword, setShowPassword] =
     useState({});
@@ -26,6 +28,20 @@ function PasswordList({
     setPasswords(updatedPasswords);
   };
 
+  const toggleFavorite = (index) => {
+    const updated = [...passwords];
+
+    updated[index].favorite =
+      !updated[index].favorite;
+
+    localStorage.setItem(
+      "passwords",
+      JSON.stringify(updated)
+    );
+
+    setPasswords(updated);
+  };
+
   const filteredPasswords =
     passwords.filter((item) =>
       item.website
@@ -37,62 +53,103 @@ function PasswordList({
     <div className="password-list">
       <h2>Saved Passwords</h2>
 
-      {filteredPasswords.map(
-        (item, index) => (
-          <div className="card" key={index}>
-            <h3>{item.website}</h3>
+      {filteredPasswords.length === 0 ? (
+        <p>No Passwords Found</p>
+      ) : (
+        filteredPasswords.map(
+          (item, index) => (
+            <div
+              className="card"
+              key={index}
+            >
+              <h3>
+                {item.website}
 
-            <p>
-              <strong>Username:</strong>{" "}
-              {item.username}
-            </p>
-
-            <p>
-              <strong>Password:</strong>{" "}
-              {showPassword[index]
-                ? item.password
-                : "********"}
-            </p>
-
-            <div className="actions">
-              <button
-                className="copy-btn"
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    item.password
-                  )
-                }
-              >
-                <FaCopy />
-              </button>
-
-              <button
-                className="show-btn"
-                onClick={() =>
-                  setShowPassword({
-                    ...showPassword,
-                    [index]:
-                      !showPassword[index],
-                  })
-                }
-              >
-                {showPassword[index] ? (
-                  <FaEyeSlash />
-                ) : (
-                  <FaEye />
+                {item.favorite && (
+                  <span
+                    style={{
+                      color: "gold",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    ⭐
+                  </span>
                 )}
-              </button>
+              </h3>
 
-              <button
-                className="delete-btn"
-                onClick={() =>
-                  deletePassword(index)
-                }
-              >
-                <FaTrash />
-              </button>
+              <p>
+                <strong>Username:</strong>{" "}
+                {item.username}
+              </p>
+
+              <p>
+                <strong>Password:</strong>{" "}
+                {showPassword[index]
+                  ? item.password
+                  : "********"}
+              </p>
+              <p className="date">
+              Updated:
+              {item.updatedAt || "N/A"}
+             </p>
+
+
+
+              <div className="actions">
+                <button
+                  className="star-btn"
+                  onClick={() =>
+                    toggleFavorite(index)
+                  }
+                >
+                  <FaStar />
+                </button>
+
+                <button
+                  className="edit-btn"
+                >
+                  <FaEdit />
+                </button>
+
+                <button
+                  className="copy-btn"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      item.password
+                    )
+                  }
+                >
+                  <FaCopy />
+                </button>
+
+                <button
+                  className="show-btn"
+                  onClick={() =>
+                    setShowPassword({
+                      ...showPassword,
+                      [index]:
+                        !showPassword[index],
+                    })
+                  }
+                >
+                  {showPassword[index] ? (
+                    <FaEyeSlash />
+                  ) : (
+                    <FaEye />
+                  )}
+                </button>
+
+                <button
+                  className="delete-btn"
+                  onClick={() =>
+                    deletePassword(index)
+                  }
+                >
+                  <FaTrash />
+                </button>
+              </div>
             </div>
-          </div>
+          )
         )
       )}
     </div>
@@ -100,10 +157,6 @@ function PasswordList({
 }
 
 export default PasswordList;
-
-
-
-
 
 
 
