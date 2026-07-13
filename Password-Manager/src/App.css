@@ -118,3 +118,45 @@ button {
   color: gray;
   margin-top: 5px;
 }
+.auth-container {
+  width: 350px;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-container h2 {
+  text-align: center;
+}
+
+.auth-container button {
+  background: #2563eb;
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+.user-name {
+  color: white;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.navbar button {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
