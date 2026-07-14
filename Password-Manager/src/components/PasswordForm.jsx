@@ -1,46 +1,68 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generatePassword } from "../utils/passwordGenerator";
+import StrengthMeter from "./StrengthMeter";
 
-function PasswordForm({ setPasswords }) {
+function PasswordForm({
+  setPasswords,
+  editData,
+  setEditData,
+}) {
   const [website, setWebsite] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
+
+  useEffect(() => {
+    if (editData) {
+      setWebsite(editData.website);
+      setUsername(editData.username);
+      setPassword(editData.password);
+    }
+  }, [editData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newPassword = {
-      website,
-      username,
-      password,
-      favorite: false,
-      updatedAt: new Date().toLocaleString(),
-    };
+    if (!website || !username || !password) {
+      alert("All fields are required!");
+      return;
+    }
 
     const stored =
       JSON.parse(localStorage.getItem("passwords")) || [];
 
-    let updatedPasswords;
+    if (editData) {
+      stored[editData.index] = {
+        website,
+        username,
+        password,
+        favorite: editData.favorite,
+        updatedAt: new Date().toLocaleString(),
+      };
 
-    if (editIndex !== null) {
-      stored[editIndex] = newPassword;
-      updatedPasswords = stored;
+      alert("Password Updated Successfully");
+      setEditData(null);
     } else {
-      updatedPasswords = [...stored, newPassword];
+      stored.push({
+        website,
+        username,
+        password,
+        favorite: false,
+        updatedAt: new Date().toLocaleString(),
+      });
+
+      alert("Password Saved Successfully");
     }
 
     localStorage.setItem(
       "passwords",
-      JSON.stringify(updatedPasswords)
+      JSON.stringify(stored)
     );
 
-    setPasswords(updatedPasswords);
+    setPasswords(stored);
 
     setWebsite("");
     setUsername("");
     setPassword("");
-    setEditIndex(null);
   };
 
   return (
@@ -49,32 +71,42 @@ function PasswordForm({ setPasswords }) {
         type="text"
         placeholder="Website Name"
         value={website}
-        onChange={(e) => setWebsite(e.target.value)}
+        onChange={(e) =>
+          setWebsite(e.target.value)
+        }
       />
 
       <input
         type="text"
         placeholder="Username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) =>
+          setUsername(e.target.value)
+        }
       />
 
       <input
         type="text"
         placeholder="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
       />
+
+      <StrengthMeter password={password} />
 
       <button
         type="button"
-        onClick={() => setPassword(generatePassword())}
+        onClick={() =>
+          setPassword(generatePassword())
+        }
       >
         Generate Password
       </button>
 
       <button type="submit">
-        {editIndex !== null
+        {editData
           ? "Update Password"
           : "Save Password"}
       </button>
@@ -83,3 +115,4 @@ function PasswordForm({ setPasswords }) {
 }
 
 export default PasswordForm;
+

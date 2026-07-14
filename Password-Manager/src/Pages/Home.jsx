@@ -1,58 +1,51 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
-import Navbar from "../components/Navbar";
 import PasswordForm from "../components/PasswordForm";
 import PasswordList from "../components/PasswordList";
 import SearchBar from "../components/SearchBar";
 
 function Home() {
-  const [passwords, setPasswords] =
-    useState([]);
-    const user = JSON.parse(
-  localStorage.getItem("loggedInUser")
-);
+  const [passwords, setPasswords] = useState([]);
+  const [search, setSearch] = useState("");
+  const [editData, setEditData] = useState(null);
 
-if (!user) {
-  return <Navigate to="/login" />;
-}
+  const user = JSON.parse(
+    localStorage.getItem("loggedInUser")
+  );
 
-  const [search, setSearch] =
-    useState("");
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   useEffect(() => {
     const stored =
-      JSON.parse(
-        localStorage.getItem("passwords")
-      ) || [];
+      JSON.parse(localStorage.getItem("passwords")) || [];
 
     setPasswords(stored);
   }, []);
 
   return (
-    <>
-      
+    <div className="container">
+      <PasswordForm
+        setPasswords={setPasswords}
+        editData={editData}
+        setEditData={setEditData}
+      />
 
-      <div className="container">
-        <PasswordForm
-          setPasswords={setPasswords}
-        />
+      <SearchBar
+        search={search}
+        setSearch={setSearch}
+      />
 
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-        />
-
-        <PasswordList
-          passwords={passwords}
-          setPasswords={setPasswords}
-          search={search}
-        />
-      </div>
-    </>
+      <PasswordList
+        passwords={passwords}
+        setPasswords={setPasswords}
+        search={search}
+        setEditData={setEditData}
+      />
+    </div>
   );
 }
 
 export default Home;
-
-

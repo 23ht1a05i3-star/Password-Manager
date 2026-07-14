@@ -12,6 +12,7 @@ function PasswordList({
   passwords = [],
   setPasswords,
   search = "",
+  setEditData,
 }) {
   const [showPassword, setShowPassword] =
     useState({});
@@ -42,6 +43,13 @@ function PasswordList({
     setPasswords(updated);
   };
 
+  const editPassword = (item, index) => {
+    setEditData({
+      ...item,
+      index,
+    });
+  };
+
   const filteredPasswords =
     passwords.filter((item) =>
       item.website
@@ -64,7 +72,6 @@ function PasswordList({
             >
               <h3>
                 {item.website}
-
                 {item.favorite && (
                   <span
                     style={{
@@ -88,12 +95,11 @@ function PasswordList({
                   ? item.password
                   : "********"}
               </p>
+
               <p className="date">
-              Updated:
-              {item.updatedAt || "N/A"}
-             </p>
-
-
+                Updated:{" "}
+                {item.updatedAt || "N/A"}
+              </p>
 
               <div className="actions">
                 <button
@@ -107,6 +113,9 @@ function PasswordList({
 
                 <button
                   className="edit-btn"
+                  onClick={() =>
+                    editPassword(item, index)
+                  }
                 >
                   <FaEdit />
                 </button>
@@ -132,11 +141,9 @@ function PasswordList({
                     })
                   }
                 >
-                  {showPassword[index] ? (
-                    <FaEyeSlash />
-                  ) : (
-                    <FaEye />
-                  )}
+                  {showPassword[index]
+                    ? <FaEyeSlash />
+                    : <FaEye />}
                 </button>
 
                 <button
@@ -157,6 +164,3 @@ function PasswordList({
 }
 
 export default PasswordList;
-
-
-
